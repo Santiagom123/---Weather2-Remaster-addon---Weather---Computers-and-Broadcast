@@ -1,0 +1,16 @@
+[
+{
+  "modid": "weather_broadcasting",
+  "name": "Weather, Computers and Broadcast",
+  "description": "An addon for Minecraft 1.12.2 that adds compatibility between Weather2 Remastered and OpenComputers.",
+  "version": "${version}",
+  "mcversion": "1.12.2",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["santiagom123"],
+  "credits": "Developed and designed by santiagom123. Special thanks to the creators of Weather2Remastered and OpenComputers for their amazing mods and APIs.",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": ["weather2remaster", "opencomputers"]
+}
+]

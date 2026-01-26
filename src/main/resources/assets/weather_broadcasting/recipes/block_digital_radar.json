@@ -1,0 +1,17 @@
+{
+  "type": "minecraft:crafting_shaped",
+  "pattern": [
+    " I ",
+    "RGR",
+    " I "
+  ],
+  "key": {
+    "I": { "item": "minecraft:iron_ingot" },
+    "R": { "item": "minecraft:redstone" },
+    "G": { "item": "minecraft:glass_pane" }
+  },
+  "result": {
+    "item": "weather_broadcasting:block_digital_radar",
+    "count": 1
+  }
+}

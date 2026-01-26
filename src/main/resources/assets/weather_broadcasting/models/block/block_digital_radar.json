@@ -1,0 +1,11 @@
+{
+  "parent": "block/cube",
+  "textures": {
+    "down": "weather_broadcasting:blocks/block_digital_radar",
+    "up": "weather_broadcasting:blocks/block_digital_radar",
+    "north": "weather_broadcasting:blocks/block_digital_radar",
+    "south": "weather_broadcasting:blocks/block_digital_radar",
+    "west": "weather_broadcasting:blocks/block_digital_radar",
+    "east": "weather_broadcasting:blocks/block_digital_radar"
+  }
+}
