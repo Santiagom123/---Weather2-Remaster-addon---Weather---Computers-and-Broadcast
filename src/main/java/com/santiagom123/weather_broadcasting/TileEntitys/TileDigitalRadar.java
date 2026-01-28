@@ -123,7 +123,7 @@ public class TileDigitalRadar extends TileEntity implements SimpleComponent, ITi
     }
 
     @Callback
-    public Object[] IsRainig(Context context, Arguments args) {
+    public Object[] IsRaining(Context context, Arguments args) {
         return new Object[]{IsRaining};
     }
 
