@@ -1,159 +1,114 @@
 package com.santiagom123.weather_broadcasting.TileEntitys;
 
+import li.cil.oc.api.machine.Arguments;
 import li.cil.oc.api.machine.Callback;
+import li.cil.oc.api.machine.Context;
 import li.cil.oc.api.network.SimpleComponent;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ITickable;
-
-
 import net.minecraft.util.math.BlockPos;
-import net.mrbt0907.weather2.api.WindReader;
 import net.mrbt0907.weather2.api.WeatherAPI;
-
-import net.mrbt0907.weather2.util.WeatherUtil;
-
-import li.cil.oc.api.machine.Context;
-import li.cil.oc.api.machine.Arguments;
+import net.mrbt0907.weather2.api.WindReader;
+import net.mrbt0907.weather2.api.weather.WeatherEnum;
 import net.mrbt0907.weather2.util.Maths;
+import net.mrbt0907.weather2.util.WeatherUtil;
 import net.mrbt0907.weather2.weather.storm.WeatherObject;
 
-import java.util.Objects;
-
-
 public class TileDigitalRadar extends TileEntity implements SimpleComponent, ITickable {
+   float WindAngle;
+   float WindSpeed;
+   float crudeTemp;
+   float Humidity;
+   float Pressure;
+   float CrudeDewPoint;
+   float CDewPoint;
+   float CTemperature;
+   float FTemperature;
+   WeatherObject closestStorm;
+   boolean IsRaining;
+   boolean IsAStorm;
+   BlockPos Bpos;
 
-    float WindAngle;
-    float WindSpeed;
+   public void update() {
+      if (this.world != null && !this.world.isRemote) {
+         Maths.Vec3 Vpos = new Maths.Vec3((double)this.pos.getX() + (double)0.0F, (double)(this.pos.getY() + 1), (double)this.pos.getZ() + (double)0.0F);
+         this.Bpos = this.pos;
+         this.closestStorm = WeatherAPI.getClosestWeather(this.world.provider.getDimension(), Vpos, (double)712.0F, 0, 10, new WeatherEnum.Type[0]);
+         this.WindAngle = WindReader.getWindAngle(this.world, Vpos);
+         this.WindSpeed = WindReader.getWindSpeed(this.world, Vpos);
+         this.crudeTemp = WeatherUtil.getTemperature(this.world, this.Bpos);
+         this.Humidity = WeatherUtil.getHumidity(this.world, this.Bpos);
+         this.Pressure = WeatherUtil.getPressure(this.world, this.Bpos);
+         this.CrudeDewPoint = WeatherUtil.getDewpoint(this.world, this.Bpos);
+         this.CDewPoint = this.CrudeDewPoint;
+         this.CTemperature = WeatherUtil.toCelsius(this.crudeTemp);
+         this.FTemperature = WeatherUtil.toFahrenheit(this.crudeTemp);
+         this.IsRaining = WeatherAPI.isPrecipitatingAt(this.world, Vpos.toBlockPos());
+         if (this.closestStorm == null) {
+            this.IsAStorm = false;
+         } else {
+            this.IsAStorm = this.closestStorm.getName() != null && !"Cloud".equals(this.closestStorm.getName());
+         }
 
-    float crudeTemp;
-    float Humidity;
-    float Pressure;
-    float CrudeDewPoint;
+      }
+   }
 
-    float CDewPoint;
-    float CTemperature;
-    float FTemperature;
+   public String getComponentName() {
+      return "WindAdapter";
+   }
 
-    WeatherObject closestStorm;
-    boolean IsRaining;
-    boolean IsAStorm;
-    BlockPos Bpos;
+   @Callback
+   public Object[] At(Context context, Arguments args) {
+      return new Object[]{"OK"};
+   }
 
+   @Callback
+   public Object[] GetWindAngle(Context context, Arguments args) {
+      return new Object[]{this.WindAngle};
+   }
 
-    @Override
-    public void update() {
-        if (world == null || world.isRemote) return;
+   @Callback
+   public Object[] GetWindSpeed(Context context, Arguments args) {
+      return new Object[]{this.WindSpeed};
+   }
 
-        Maths.Vec3 Vpos = new Maths.Vec3(
-                pos.getX() + 0.0,
-                pos.getY() + 1,
-                pos.getZ() + 0.0
-        );
+   @Callback
+   public Object[] ClosestStorm(Context context, Arguments args) {
+      return new Object[]{"type", this.closestStorm.getTypeName(), "dist", this.closestStorm.getPos().distance((double)this.pos.getX(), (double)this.pos.getY(), (double)this.pos.getZ()), "angle", this.closestStorm.getAngle(), "speed", this.closestStorm.getSpeed(), "name", this.closestStorm.getName(), "danger", this.closestStorm.isDangerous(), "isDying", this.closestStorm.isDying(), "stage", this.closestStorm.getStage(), "Wspeed", this.closestStorm.getWindSpeed(), "size", this.closestStorm.size};
+   }
 
+   @Callback
+   public Object[] IsRaining(Context context, Arguments args) {
+      return new Object[]{this.IsRaining};
+   }
 
-        Bpos = pos;
+   @Callback
+   public Object[] IsAStorm(Context context, Arguments args) {
+      return new Object[]{this.IsAStorm};
+   }
 
-        closestStorm = WeatherAPI.getClosestWeather(
-                world.provider.getDimension(),
-                Vpos,
-                712,
-                0,
-                10
-        );
+   @Callback
+   public Object[] GetHumidity(Context context, Arguments args) {
+      return new Object[]{this.Humidity};
+   }
 
-        WindAngle = WindReader.getWindAngle(world, Vpos);
-        WindSpeed = WindReader.getWindSpeed(world, Vpos);
+   @Callback
+   public Object[] GetDewpoint(Context context, Arguments args) {
+      return new Object[]{this.CDewPoint};
+   }
 
-        crudeTemp = WeatherUtil.getTemperature(world, Bpos);
-        Humidity = WeatherUtil.getHumidity(world, Bpos);
-        Pressure = WeatherUtil.getPressure(world, Bpos);
-        CrudeDewPoint = WeatherUtil.getDewpoint(world, Bpos);
+   @Callback
+   public Object[] GetPressure(Context context, Arguments args) {
+      return new Object[]{this.Pressure};
+   }
 
-        CDewPoint = CrudeDewPoint;
-        CTemperature = WeatherUtil.toCelsius(crudeTemp);
-        FTemperature = WeatherUtil.toFahrenheit(crudeTemp);
+   @Callback
+   public Object[] GetFarenheitTemperature(Context context, Arguments args) {
+      return new Object[]{this.FTemperature};
+   }
 
-        IsRaining = WeatherAPI.isPrecipitatingAt(world, Vpos.toBlockPos());
-
-        if (closestStorm == null) {
-            IsAStorm = false;
-        } else IsAStorm = closestStorm.getName() != null && !"Cloud".equals(closestStorm.getName());
-
-
-
-    }
-
-    @Override
-    public String getComponentName() {
-        return "WindAdapter";
-    }
-
-    @Callback
-    public Object[] At(Context context, Arguments args) {
-        return new Object[]{"OK"};
-    }
-
-    @Callback
-    public Object[] GetWindAngle(Context context, Arguments args) {
-        return new Object[]{WindAngle};
-    }
-
-    @Callback
-    public Object[] GetWindSpeed(Context context, Arguments args) {
-        return new Object[]{WindSpeed};
-    }
-
-    @Callback
-    public Object[] ClosestStorm(Context context, Arguments args) {
-        return new Object[]{
-                "type" , closestStorm.getTypeName(),
-                "dist", closestStorm.getPos().distance(pos.getX(), pos.getY(), pos.getZ()),
-                "angle" , closestStorm.getAngle(),
-                "speed" , closestStorm.getSpeed(),
-                "name" , closestStorm.getName(),
-                "danger" , closestStorm.isDangerous(),
-                "isDying" , closestStorm.isDying(),
-                "stage" , closestStorm.getStage(),
-                "Wspeed" , closestStorm.getWindSpeed(),
-                "size" , closestStorm.size
-
-
-
-        };
-    }
-
-    @Callback
-    public Object[] IsRaining(Context context, Arguments args) {
-        return new Object[]{IsRaining};
-    }
-
-    @Callback
-    public Object[] IsAStorm(Context context, Arguments args) {
-        return new Object[]{IsAStorm};
-    }
-
-    @Callback
-    public Object[] GetHumidity(Context context, Arguments args) {
-        return new Object[]{Humidity};
-    }
-
-    @Callback
-    public Object[] GetDewpoint(Context context, Arguments args) {
-        return new Object[]{CDewPoint};
-    }
-
-    @Callback
-    public Object[] GetPressure(Context context, Arguments args) {
-        return new Object[]{Pressure};
-    }
-
-    @Callback
-    public Object[] GetFarenheitTemperature(Context context, Arguments args) {
-        return new Object[]{FTemperature};
-    }
-
-    @Callback
-    public Object[] GetCelsiusTemperature(Context context, Arguments args) {
-        return new Object[]{CTemperature};
-    }
+   @Callback
+   public Object[] GetCelsiusTemperature(Context context, Arguments args) {
+      return new Object[]{this.CTemperature};
+   }
 }

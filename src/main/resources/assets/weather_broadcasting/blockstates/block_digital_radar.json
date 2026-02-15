@@ -1,5 +1,6 @@
 {
   "variants": {
-    "normal": { "model": "weather_broadcasting:block_digital_radar" }
+    "normal": { "model": "weather_broadcasting:block_digital_radar" },
+    "inventory": { "model": "weather_broadcasting:block_digital_radar" }
   }
 }
