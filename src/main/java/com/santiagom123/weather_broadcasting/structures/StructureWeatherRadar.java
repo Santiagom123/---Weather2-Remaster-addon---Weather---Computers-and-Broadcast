@@ -18,7 +18,7 @@ import net.minecraftforge.fml.common.IWorldGenerator;
 
 public class StructureWeatherRadar implements IWorldGenerator {
    public void generate(Random random, int chunkX, int chunkZ, World world, IChunkGenerator chunkGenerator, IChunkProvider chunkProvider) {
-      if (world.provider.getDimension() == 0 && random.nextInt(500) == 0) {
+      if (world.provider.getDimension() == 0 && random.nextInt(600) == 0) {
          int x = chunkX * 16 + random.nextInt(16);
          int z = chunkZ * 16 + random.nextInt(16);
          BlockPos pos = world.getTopSolidOrLiquidBlock(new BlockPos(x, 0, z));

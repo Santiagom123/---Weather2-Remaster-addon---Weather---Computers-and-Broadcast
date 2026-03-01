@@ -1,2 +1,3 @@
 tile.block_digital_radar.name=Digital Radar
+tile.block_digital_siren.name=Digital Siren
 itemGroup.weather_broadcasting_tab=Weather Broadcasting

@@ -1,0 +1,6 @@
+{
+  "variants": {
+    "normal": { "model": "weather_broadcasting:block_digital_siren" },
+    "inventory": { "model": "weather_broadcasting:block_digital_siren" }
+  }
+}

@@ -40,7 +40,7 @@ public class TileDigitalRadar extends TileEntity implements SimpleComponent, ITi
          this.Humidity = WeatherUtil.getHumidity(this.world, this.Bpos);
          this.Pressure = WeatherUtil.getPressure(this.world, this.Bpos);
          this.CrudeDewPoint = WeatherUtil.getDewpoint(this.world, this.Bpos);
-         this.CDewPoint = this.CrudeDewPoint;
+         this.CDewPoint = this.CrudeDewPoint + 0.92F;
          this.CTemperature = WeatherUtil.toCelsius(this.crudeTemp);
          this.FTemperature = WeatherUtil.toFahrenheit(this.crudeTemp);
          this.IsRaining = WeatherAPI.isPrecipitatingAt(this.world, Vpos.toBlockPos());
@@ -74,7 +74,7 @@ public class TileDigitalRadar extends TileEntity implements SimpleComponent, ITi
 
    @Callback
    public Object[] ClosestStorm(Context context, Arguments args) {
-      return new Object[]{"type", this.closestStorm.getTypeName(), "dist", this.closestStorm.getPos().distance((double)this.pos.getX(), (double)this.pos.getY(), (double)this.pos.getZ()), "angle", this.closestStorm.getAngle(), "speed", this.closestStorm.getSpeed(), "name", this.closestStorm.getName(), "danger", this.closestStorm.isDangerous(), "isDying", this.closestStorm.isDying(), "stage", this.closestStorm.getStage(), "Wspeed", this.closestStorm.getWindSpeed(), "size", this.closestStorm.size};
+      return new Object[]{"type", this.closestStorm.getTypeName(), "dist", (this.closestStorm.getPos().distance((double)this.pos.getX(), (double)this.pos.getY(), (double)this.pos.getZ())* 1000), "angle", this.closestStorm.getAngle(), "speed", this.closestStorm.getSpeed() * 30, "name", this.closestStorm.getName(), "danger", !(this.closestStorm.isDangerous()), "isDying", this.closestStorm.isDying(), "stage", this.closestStorm.getStage(), "Wspeed", this.closestStorm.getWindSpeed(), "size", this.closestStorm.size};
    }
 
    @Callback

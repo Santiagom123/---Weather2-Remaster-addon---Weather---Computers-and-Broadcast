@@ -1,14 +1,19 @@
 {
   "type": "minecraft:crafting_shaped",
   "pattern": [
-    " I ",
-    "RGR",
-    " I "
+    "HAT",
+    "WMD",
+    "ECE"
   ],
   "key": {
-    "I": { "item": "minecraft:iron_ingot" },
-    "R": { "item": "minecraft:redstone" },
-    "G": { "item": "minecraft:glass_pane" }
+    "C": { "item": "weather2:cpu_1"},
+    "A": { "item": "weather2:antenna_2" },
+    "E": { "item": "weather2:antenna_1" },
+    "M": { "item": "weather2:motor" },
+    "D": { "item": "weather2:bulb_dry"},
+    "W": { "item": "weather2:bulb_wet"},
+    "T": { "item": "weather2:handheld_thermometer"},
+    "H": { "item": "weather2:handheld_hygrometer"}
   },
   "result": {
     "item": "weather_broadcasting:block_digital_radar",

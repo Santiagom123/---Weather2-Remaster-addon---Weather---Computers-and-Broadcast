@@ -18,5 +18,9 @@ public class ClientRenderHandler {
       if (item != null) {
          ModelLoader.setCustomModelResourceLocation(item, 0, new ModelResourceLocation(WBBlocks.DIGITAL_RADAR.getRegistryName().toString(), "inventory"));
       }
+      Item item2 = Item.getItemFromBlock(WBBlocks.DIGITAL_SIREN);
+      if (item2 != null) {
+         ModelLoader.setCustomModelResourceLocation(item2, 0, new ModelResourceLocation(WBBlocks.DIGITAL_SIREN.getRegistryName().toString(), "inventory"));
+      }
    }
 }

@@ -1,5 +1,6 @@
 package com.santiagom123.weather_broadcasting;
 
+import com.santiagom123.weather_broadcasting.init.WBBlocks;
 import com.santiagom123.weather_broadcasting.init.WBTileEntities;
 import com.santiagom123.weather_broadcasting.structures.StructureWeatherRadar;
 import li.cil.oc.api.FileSystem;
@@ -25,7 +26,7 @@ import org.apache.logging.log4j.Logger;
 public class WeatherBroadcasting {
    public static final String MODID = "weather_broadcasting";
    public static final String NAME = "[Weather2Remast and OC addon] Weather Broadcasting";
-   public static final String VERSION = "1.1.2";
+   public static final String VERSION = "1.2";
    private static Logger logger;
 
    @EventHandler
@@ -39,11 +40,12 @@ public class WeatherBroadcasting {
    @EventHandler
    public void init(FMLInitializationEvent event) {
       Items.registerFloppy("WeatherOS", EnumDyeColor.CYAN, () -> FileSystem.fromClass(WeatherBroadcasting.class, "weather_broadcasting", "opencomputers/loot/WeatherOS"), true);
-      logger.info("DIRT BLOCK >> {}", Blocks.DIRT.getRegistryName());
+      logger.info("DIGITAL RADAR >> {}", WBBlocks.DIGITAL_RADAR.getRegistryName());
+      logger.info("DIGITAL SIREN >> {}", WBBlocks.DIGITAL_SIREN.getRegistryName());
    }
 
    @EventHandler
    public void postInit(FMLPostInitializationEvent event) {
-      logger.info("HERE: ", "[Weather2Remast and OC addon] Weather Broadcasting", " at ver: ", "1.1.2", " Inicialized");
+      logger.info("HERE: [Weather2Remast and OC addon] Weather Broadcasting at ver: 1.1.3 Inicialized");
    }
 }
